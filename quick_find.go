@@ -1,15 +1,10 @@
-package union_find
+package go_utils
 
 type QuickFind struct {
 	pair   []APairOfInt
 	ele    map[int]int
 	unions map[int][]int
 	max    int
-}
-
-type APairOfInt struct {
-	Key   int
-	Value int
 }
 
 func (q *QuickFind) initEleList() {
@@ -23,7 +18,7 @@ func (q *QuickFind) initEleList() {
 func (q *QuickFind) do() {
 	for _, vv := range q.pair {
 		pN := APairOfInt{Key: q.ele[vv.Key], Value: q.ele[vv.Value]}
-		minV := q.min(pN.Key, pN.Value)
+		minV := IntMin(pN.Key, pN.Value)
 		for k, _ := range q.ele {
 			if q.ele[k] == pN.Key || q.ele[k] == pN.Value {
 				q.ele[k] = minV
@@ -35,19 +30,22 @@ func (q *QuickFind) do() {
 	}
 }
 
-func (q *QuickFind) min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 func (q *QuickFind) Result() map[int]int {
 	return q.ele
 }
 
-func (q *QuickFind) GetTopUnions() map[int][]int {
+func (q *QuickFind) GetUnions() map[int][]int {
 	return q.unions
+}
+
+func (q *QuickFind) GetUnionsByLimit(limit int) map[int][]int {
+	rl := make(map[int][]int, len(q.unions))
+	for k, v := range q.unions {
+		if len(v) >= limit {
+			rl[k] = v
+		}
+	}
+	return rl
 }
 
 func NewQuickFind(max int, pair []APairOfInt) *QuickFind {
