@@ -1,5 +1,7 @@
 package go_utils
 
+import "fmt"
+
 const (
 	maxDistance = 0x3fffffff
 )
@@ -9,13 +11,17 @@ type Row []int
 // MinEditDistance 计算两个字符串的最短编辑距离
 func MinEditDistance(str1, str2 string) int {
 	r1, r2 := []rune(str1), []rune(str2)
+	fmt.Println(float64(len(str1) + len(str2)))
 	return minEditDistance(r1, r2)
 }
 
 func StrEditSimilarity(str1, str2 string) float64 {
 	r1, r2 := []rune(str1), []rune(str2)
+	fmt.Println(r1)
+	fmt.Println(r2)
 	med := minEditDistance(r1, r2)
-	return float64(med*2) / float64(len(str1)+len(str2))
+	fmt.Println(float64(len(str1) + len(str2)))
+	return float64(med*2) / (float64(len(str1) + len(str2)))
 }
 
 func GetSimilarUnion(tv float64, sl []string) []APairOfInt {
